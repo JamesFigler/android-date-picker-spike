@@ -1,7 +1,10 @@
 package com.jamesfigler.datetimepicker;
 
-import android.view.View;
-import android.widget.Button;
+import android.support.design.widget.TextInputEditText;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class MainActivityImpl {
     public void onCreate(MainActivity activity) {
@@ -9,13 +12,13 @@ public class MainActivityImpl {
     }
 
     public void onPostCreate(MainActivity activity) {
-        final Button showDateTimePickerButton = (Button) activity.findViewById(R.id.show_date_picker_button);
+        initDateEditText(activity);
+    }
 
-        showDateTimePickerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDateTimePickerButton.setText("I've been clicked");
-            }
-        });
+    private void initDateEditText(MainActivity activity) {
+        TextInputEditText dateEditText = (TextInputEditText) activity.findViewById(R.id.date_input_view_text);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
+        String formattedDate = sdf.format(Calendar.getInstance().getTime());
+        dateEditText.setText(formattedDate);
     }
 }

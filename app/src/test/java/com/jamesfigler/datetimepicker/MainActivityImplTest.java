@@ -1,5 +1,7 @@
 package com.jamesfigler.datetimepicker;
 
+import android.app.DatePickerDialog;
+import android.support.design.widget.TextInputEditText;
 import android.view.View;
 import android.widget.Button;
 
@@ -7,6 +9,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -19,16 +25,16 @@ public class MainActivityImplTest {
     private MainActivityImpl subject;
 
     private MainActivity activity;
-    private Button showDateTimePickerButton;
+    private TextInputEditText dateEditTextView;
 
     @Before
     public void setUp() {
         initMocks(this);
 
         activity = mock(MainActivity.class);
-        showDateTimePickerButton = mock(Button.class);
+        dateEditTextView = mock(TextInputEditText.class);
 
-        when(activity.findViewById(R.id.show_date_picker_button)).thenReturn(showDateTimePickerButton);
+        when(activity.findViewById(R.id.date_input_view_text)).thenReturn(dateEditTextView);
     }
 
     @Test
@@ -39,15 +45,13 @@ public class MainActivityImplTest {
     }
 
     @Test
-    public void itSetsAClickListenerToShowTheDateTimePicker() {
+    public void itShowsTodaysDate() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
+        String formattedDate = sdf.format(calendar.getTime());
+
         subject.onPostCreate(activity);
 
-        ArgumentCaptor<View.OnClickListener> captor = ArgumentCaptor.forClass(View.OnClickListener.class);
-        verify(showDateTimePickerButton).setOnClickListener(captor.capture());
-
-        View.OnClickListener listener = captor.getValue();
-        listener.onClick(null);
-
-        verify(showDateTimePickerButton).setText("I've been clicked");
+        verify(dateEditTextView).setText(formattedDate);
     }
 }
