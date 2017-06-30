@@ -29,4 +29,11 @@ public class MainActivityTest {
 
         verify(impl).onCreate(subject);
     }
+
+    @Test
+    public void onCreateViewSetsClickListenerOnShowDatePickerButton() {
+        subject.onPostCreate(null);
+
+        verify(impl).onPostCreate(subject);
+    }
 }

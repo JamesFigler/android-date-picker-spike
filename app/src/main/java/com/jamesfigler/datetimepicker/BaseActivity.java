@@ -16,4 +16,9 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         if (isValveOpen) super.onCreate(savedInstanceState);
     }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        if (isValveOpen) super.onPostCreate(savedInstanceState);
+    }
 }

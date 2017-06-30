@@ -1,6 +1,7 @@
 package com.jamesfigler.datetimepicker;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 public class MainActivity extends BaseActivity {
 
@@ -10,5 +11,11 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         impl.onCreate(this);
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        impl.onPostCreate(this);
     }
 }
