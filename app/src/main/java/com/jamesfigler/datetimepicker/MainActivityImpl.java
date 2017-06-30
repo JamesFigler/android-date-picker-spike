@@ -3,9 +3,13 @@ package com.jamesfigler.datetimepicker;
 import android.support.design.widget.TextInputEditText;
 import android.view.View;
 
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+
+import static com.wdullaer.materialdatetimepicker.date.DatePickerDialog.Version.VERSION_2;
 
 public class MainActivityImpl {
 
@@ -32,7 +36,9 @@ public class MainActivityImpl {
         dateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePickerDialogFactory.make().show(activity.getFragmentManager(), null);
+                DatePickerDialog datePickerDialog = datePickerDialogFactory.make();
+                datePickerDialog.setVersion(VERSION_2);
+                datePickerDialog.show(activity.getFragmentManager(), null);
             }
         });
     }

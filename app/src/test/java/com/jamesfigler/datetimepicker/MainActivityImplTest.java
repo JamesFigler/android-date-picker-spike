@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
+import static com.wdullaer.materialdatetimepicker.date.DatePickerDialog.Version.VERSION_2;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -76,6 +77,7 @@ public class MainActivityImplTest {
         View.OnClickListener listener = captor.getValue();
         listener.onClick(null);
 
+        verify(datePickerDialog).setVersion(VERSION_2);
         verify(datePickerDialog).show(fragmentManager, null);
     }
 }
