@@ -1,14 +1,16 @@
 package com.jamesfigler.datetimepicker;
 
-import android.app.DatePickerDialog;
+import android.app.FragmentManager;
 import android.support.design.widget.TextInputEditText;
 import android.view.View;
-import android.widget.Button;
+
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,11 +23,16 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class MainActivityImplTest {
 
+    @Mock
+    private DatePickerDialogFactory datePickerDialogFactory;
+
     @InjectMocks
     private MainActivityImpl subject;
 
     private MainActivity activity;
     private TextInputEditText dateEditTextView;
+    private DatePickerDialog datePickerDialog;
+    private FragmentManager fragmentManager;
 
     @Before
     public void setUp() {
@@ -33,8 +40,12 @@ public class MainActivityImplTest {
 
         activity = mock(MainActivity.class);
         dateEditTextView = mock(TextInputEditText.class);
+        datePickerDialog = mock(DatePickerDialog.class);
+        fragmentManager = mock(FragmentManager.class);
 
         when(activity.findViewById(R.id.date_input_view_text)).thenReturn(dateEditTextView);
+        when(activity.getFragmentManager()).thenReturn(fragmentManager);
+        when(datePickerDialogFactory.make()).thenReturn(datePickerDialog);
     }
 
     @Test
@@ -53,5 +64,18 @@ public class MainActivityImplTest {
         subject.onPostCreate(activity);
 
         verify(dateEditTextView).setText(formattedDate);
+    }
+
+    @Test
+    public void itShowsTheDatePickerDialogWhenClickingOnTheDate() {
+        subject.onPostCreate(activity);
+
+        ArgumentCaptor<View.OnClickListener> captor = ArgumentCaptor.forClass(View.OnClickListener.class);
+        verify(dateEditTextView).setOnClickListener(captor.capture());
+
+        View.OnClickListener listener = captor.getValue();
+        listener.onClick(null);
+
+        verify(datePickerDialog).show(fragmentManager, null);
     }
 }
