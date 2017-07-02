@@ -74,6 +74,7 @@ public class MainActivityImplTest {
 
         verify(datePickerDialog).setVersion(VERSION_2);
         verify(datePickerDialog).setMinDate(Calendar.getInstance());
+        verify(datePickerDialog).vibrate(false);
     }
 
     @Test

@@ -41,6 +41,7 @@ public class MainActivityImpl {
         datePickerDialog = datePickerDialogFactory.make();
         datePickerDialog.setVersion(VERSION_2);
         datePickerDialog.setMinDate(today);
+        datePickerDialog.vibrate(false);
         datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
