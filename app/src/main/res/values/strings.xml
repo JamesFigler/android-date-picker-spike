@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">DateTime Picker</string>
+    <string name="app_name">Date Picker</string>
     <string name="show_date_picker">Show Date Picker</string>
     <string name="click_to_change_the_date">Click to change the date</string>
 </resources>

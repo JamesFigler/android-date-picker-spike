@@ -1,33 +1,29 @@
 package com.jamesfigler.datetimepicker;
 
-import android.content.DialogInterface;
+import android.app.DatePickerDialog;
 import android.support.design.widget.TextInputEditText;
 import android.view.View;
-
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import android.widget.DatePicker;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-import static com.wdullaer.materialdatetimepicker.date.DatePickerDialog.Version.VERSION_2;
-
 public class MainActivityImpl {
 
     private DatePickerDialogFactory datePickerDialogFactory = new DatePickerDialogFactory();
+    private Calendar today = Calendar.getInstance();
     private TextInputEditText dateEditText;
     private DatePickerDialog datePickerDialog;
-    private Calendar today;
 
     public void onCreate(MainActivity activity) {
         activity.setContentView(R.layout.activity_main);
     }
 
     public void onPostCreate(MainActivity activity) {
-        today = Calendar.getInstance();
         initDateEditText(activity);
-        initDatePickerDialog();
-        setDateClickListener(activity);
+        initDatePickerDialog(activity);
+        setDateClickListener();
     }
 
     private void initDateEditText(MainActivity activity) {
@@ -37,27 +33,29 @@ public class MainActivityImpl {
         dateEditText.setText(formattedDate);
     }
 
-    private void initDatePickerDialog() {
-        datePickerDialog = datePickerDialogFactory.make();
-        datePickerDialog.setVersion(VERSION_2);
-        datePickerDialog.setMinDate(today);
-        datePickerDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
+    private void initDatePickerDialog(MainActivity activity) {
+        DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
             @Override
-            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
-                Calendar date = Calendar.getInstance();
-                date.set(year, monthOfYear, dayOfMonth);
-                String formattedDate = sdf.format(date.getTime());
-                dateEditText.setText(formattedDate);
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(year, month, dayOfMonth);
+                dateEditText.setText(sdf.format(calendar.getTime()));
             }
-        });
+        };
+
+        datePickerDialog = datePickerDialogFactory.make(activity, listener,
+                today.get(Calendar.YEAR),
+                today.get(Calendar.MONTH),
+                today.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.getDatePicker().setMinDate(today.getTimeInMillis());
     }
 
-    private void setDateClickListener(final MainActivity activity) {
+    private void setDateClickListener() {
         dateEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                datePickerDialog.show(activity.getFragmentManager(), null);
+                datePickerDialog.show();
             }
         });
     }
