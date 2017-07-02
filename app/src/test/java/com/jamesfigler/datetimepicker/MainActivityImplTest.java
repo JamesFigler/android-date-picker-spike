@@ -5,6 +5,7 @@ import android.support.design.widget.TextInputEditText;
 import android.view.View;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -68,6 +69,14 @@ public class MainActivityImplTest {
     }
 
     @Test
+    public void itInitializesTheDatePickerDialog() {
+        subject.onPostCreate(activity);
+
+        verify(datePickerDialog).setVersion(VERSION_2);
+        verify(datePickerDialog).setMinDate(Calendar.getInstance());
+    }
+
+    @Test
     public void itShowsTheDatePickerDialogWhenClickingOnTheDate() {
         subject.onPostCreate(activity);
 
@@ -77,7 +86,20 @@ public class MainActivityImplTest {
         View.OnClickListener listener = captor.getValue();
         listener.onClick(null);
 
-        verify(datePickerDialog).setVersion(VERSION_2);
         verify(datePickerDialog).show(fragmentManager, null);
+    }
+
+    @Test
+    public void itChangesTheDateInTheEditTextViewWhenTheDialogIsDismissed() {
+        subject.onPostCreate(activity);
+
+        ArgumentCaptor<OnDateSetListener> captor = ArgumentCaptor.forClass(OnDateSetListener.class);
+        verify(datePickerDialog).setOnDateSetListener(captor.capture());
+
+        OnDateSetListener listener = captor.getValue();
+        listener.onDateSet(datePickerDialog, 2017, 0, 1);
+
+        String selectedDate = "2017/01/01";
+        verify(dateEditTextView).setText(selectedDate);
     }
 }
