@@ -1,6 +1,5 @@
-package com.jamesfigler.datetimepicker;
+package com.jamesfigler.androidspikes;
 
-import android.content.DialogInterface;
 import android.support.design.widget.TextInputEditText;
 import android.view.View;
 

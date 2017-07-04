@@ -1,4 +1,4 @@
-package com.jamesfigler.datetimepicker;
+package com.jamesfigler.androidspikes;
 
 import android.app.FragmentManager;
 import android.support.design.widget.TextInputEditText;

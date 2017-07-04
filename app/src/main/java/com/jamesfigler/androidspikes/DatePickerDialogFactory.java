@@ -1,4 +1,4 @@
-package com.jamesfigler.datetimepicker;
+package com.jamesfigler.androidspikes;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 

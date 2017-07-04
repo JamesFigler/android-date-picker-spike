@@ -1,4 +1,4 @@
-package com.jamesfigler.datetimepicker;
+package com.jamesfigler.androidspikes;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
